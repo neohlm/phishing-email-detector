@@ -218,3 +218,7 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Dataset (too large for GitHub, over 100 MB)
+phishing_email.csv
+*.csv
