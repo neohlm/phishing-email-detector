@@ -1,14 +1,4 @@
-"""
-Flask API for the Phishing Email Detection model.
 
-Exposes a single POST endpoint, /predict, which accepts raw email text
-and returns a phishing/legitimate classification with a probability score.
-
-Run with:
-    python api.py
-
-The server starts on http://127.0.0.1:5000
-"""
 
 import json
 import pickle
@@ -20,9 +10,9 @@ from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 from lime.lime_text import LimeTextExplainer
 
-# ---------------------------------------------------------------------------
+
 # Load model artifacts once at startup
-# ---------------------------------------------------------------------------
+
 print("Loading model, tokenizer and config...")
 
 with open("model_config.json", "r") as f:
@@ -38,9 +28,9 @@ model = load_model("phishing_bilstm_model.keras")
 print("Model loaded. Ready to serve predictions.")
 
 
-# ---------------------------------------------------------------------------
+
 # Preprocessing (must match the notebook exactly)
-# ---------------------------------------------------------------------------
+
 def clean_text(text: str) -> str:
     text = str(text).lower()
     text = re.sub(r"http\S+|www\.\S+", " urltoken ", text)
@@ -56,9 +46,9 @@ def preprocess(text: str):
     return padded
 
 
-# ---------------------------------------------------------------------------
-# XAI: LIME explainer (bonus feature)
-# ---------------------------------------------------------------------------
+
+# XAI: LIME explainer 
+
 lime_explainer = LimeTextExplainer(class_names=["Legitimate", "Phishing"])
 
 
@@ -71,9 +61,9 @@ def lime_predict_proba(texts):
     return np.vstack([1 - probs, probs]).T
 
 
-# ---------------------------------------------------------------------------
+
 # Flask app
-# ---------------------------------------------------------------------------
+
 app = Flask(__name__)
 
 

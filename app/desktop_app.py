@@ -1,15 +1,4 @@
-"""
-Phishing Email Detector — Desktop App (Tkinter)
 
-A basic desktop GUI that sends email text to the local Flask API (api.py)
-and displays the phishing/legitimate prediction.
-
-Make sure api.py is running first:
-    python api.py
-
-Then run this app:
-    python desktop_app.py
-"""
 
 import tkinter as tk
 from tkinter import scrolledtext, messagebox
@@ -28,7 +17,7 @@ class PhishingDetectorApp:
         self.root.geometry("640x700")
         self.root.resizable(False, False)
 
-        # ---- Title ----
+        # Title 
         title = tk.Label(
             root, text="Phishing Email Detector",
             font=("Helvetica", 18, "bold")
@@ -41,13 +30,13 @@ class PhishingDetectorApp:
         )
         subtitle.pack(pady=(0, 10))
 
-        # ---- Input box ----
+        # Input box 
         self.text_input = scrolledtext.ScrolledText(
             root, width=70, height=15, font=("Helvetica", 11), wrap=tk.WORD
         )
         self.text_input.pack(padx=15, pady=5)
 
-        # ---- Button ----
+        # Button
         self.check_button = tk.Button(
             root, text="Check Email", font=("Helvetica", 12, "bold"),
             bg="#2E5090", fg="white", activebackground="#1E3A66",
@@ -55,7 +44,7 @@ class PhishingDetectorApp:
         )
         self.check_button.pack(pady=12)
 
-        # ---- Result display ----
+        # Result display 
         self.result_frame = tk.Frame(root)
         self.result_frame.pack(pady=5)
 
@@ -69,7 +58,7 @@ class PhishingDetectorApp:
         )
         self.prob_label.pack()
 
-        # ---- XAI explanation panel ----
+        # XAI explanation panel
         explain_title = tk.Label(
             root, text="Why? (word-level contributions)",
             font=("Helvetica", 10, "bold"), fg="gray30"
@@ -85,7 +74,7 @@ class PhishingDetectorApp:
         self.explanation_box.tag_configure("legit_word", foreground="#2E5090", font=("Helvetica", 10, "bold"))
         self.explanation_box.tag_configure("plain", foreground="gray30")
 
-        # ---- Status bar ----
+        # Status bar
         self.status_var = tk.StringVar(value="Checking connection to API...")
         status_bar = tk.Label(
             root, textvariable=self.status_var, font=("Helvetica", 9),
@@ -119,7 +108,7 @@ class PhishingDetectorApp:
         self.prob_label.config(text="")
         self._set_explanation_text("Analysing...", [])
 
-        # Run the API call in a background thread so the UI doesn't freeze
+        # Running API call in a background thread so UI doesn't freeze
         threading.Thread(target=self.call_api, args=(email_text,), daemon=True).start()
 
     def call_api(self, email_text):
